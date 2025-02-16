@@ -4,22 +4,14 @@ const routers = require("./routers/routers")
 const errorHandling = require("./error/errorHandling")
 
 const app = express();
- 
-app.set("port", process.env.PORT || 3000)
 
-app.use(cors());
-app.use(express.urlencoded({ extended: false }));
+// Middleware para manejar solicitudes con formato JSON
 app.use(express.json());
-app.use(routers);
-app.use(function(req, res, next)
-    {
-        res.status(404).json({error:true, 
-                              codigo: 404, 
-                              message: "Endpoint doesnt found"})
-    })
 
-app.use(errorHandling);
+// Habilitar CORS (si es necesario para el frontend)
+app.use(cors());
 
-module.exports = app;
+// Rutas del producto
+app.use('/api', productRoutes); // Prefijo 'api' para las rutas del producto
 
-
+export default app;

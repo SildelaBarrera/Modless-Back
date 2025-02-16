@@ -1,18 +1,24 @@
+require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 const express = require("express");
 const cors = require("cors");
-const routers = require("./src/routers/routers");
-const errorHandling = require("./src/error/errorHandling");
+const routers = require("./src/routers/routers"); // Rutas de la aplicación
+const errorHandling = require("./src/error/errorHandling"); // Manejo de errores
 
 const app = express();
 
-app.set("port", process.env.PORT || 3000);
+// Configurar puerto desde la variable de entorno o usar el predeterminado
+const PORT = process.env.PORT || 3000;
+app.set("port", PORT);
 
-app.use(cors());
+// Middlewares
+app.use(cors()); // Habilitar CORS
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.json()); // Permitir recibir datos en formato JSON
 
-app.use(routers);
+// Rutas
+app.use("/api", routers); // Aquí estamos usando el prefijo '/api' para las rutas
 
+// Manejo de rutas no encontradas (404)
 app.use((req, res) => {
     res.status(404).json({
         error: true,
@@ -24,6 +30,7 @@ app.use((req, res) => {
 // Manejo de errores generales
 app.use(errorHandling);
 
+// Iniciar el servidor
 app.listen(app.get("port"), () => {
-    console.log(`Server running on port ${app.get("port")}`);
+    console.log(`Server running on port ${PORT}`);
 });
