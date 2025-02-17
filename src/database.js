@@ -1,9 +1,11 @@
+const { password } = require ('../src/passwords')
+
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "W0rb3nch159.-",
+    password: password,
     database: "tienda_online",
     waitForConnections: true,
     connectionLimit: 10,

@@ -73,7 +73,8 @@ const getProductById = async (request, response) => {
                 p.price, 
                 c.color, 
                 s.size, 
-                st.stock
+                st.stock,
+                vi.image
             FROM 
                 products p
             JOIN 
@@ -84,6 +85,8 @@ const getProductById = async (request, response) => {
                 sizes s ON vp.id_size = s.id_size
             JOIN 
                 stock st ON vp.id_variant = st.id_variant
+            JOIN 
+                variants_image vi ON vp.id_variant = vi.id_variant
             WHERE 
                 p.id_product = ?
         `;
@@ -102,6 +105,7 @@ const getProductById = async (request, response) => {
           };
       
           response.status(200).json(respuesta);
+          console.log(respuesta.data)
      
     } catch (error) {
         console.error(error);
